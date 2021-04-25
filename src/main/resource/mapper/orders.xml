@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.OrdersDAO">
+  <resultMap type="orders" id="ordersMap">
+    <id property="ordersid" column="ordersid" />
+    <result property="ordercode" column="ordercode" />
+    <result property="usersid" column="usersid" />
+    <result property="deptid" column="deptid" />
+    <result property="cateid" column="cateid" />
+    <result property="money" column="money" />
+    <result property="orderdate" column="orderdate" />
+    <result property="symptoms" column="symptoms" />
+    <result property="status" column="status" />
+    <result property="realname" column="realname" />
+    <result property="deptname" column="deptname" />
+    <result property="catename" column="catename" />
+  </resultMap>
+  <!-- 插入语句 DAO通过id调用此配置 -->
+  <insert id="insertOrders" parameterType="orders">
+    insert into orders(ordersid , ordercode , usersid , deptid , cateid , money , orderdate , symptoms , status ) values(#{ordersid} , #{ordercode} , #{usersid} ,
+    #{deptid} , #{cateid} , #{money} , #{orderdate} , #{symptoms} , #{status} )
+  </insert>
+  <!-- 更新语句 DAO通过id调用此配置 -->
+  <update id="updateOrders" parameterType="orders">
+    update orders set ordercode=#{ordercode} , usersid=#{usersid} , deptid=#{deptid} , cateid=#{cateid} , money=#{money} , orderdate=#{orderdate} , symptoms=#{symptoms}
+    , status=#{status} where ordersid=#{ordersid}
+  </update>
+  <!-- 按主键删除 DAO通过id调用此配置 -->
+  <delete id="deleteOrders" parameterType="String">
+    delete from orders where ordersid = #{ordersid}
+  </delete>
+  <!-- 查询全部信息 DAO通过id调用此配置 -->
+  <select id="getAllOrders" resultMap="ordersMap">
+    select a.* , b.realname , c.deptname , d.catename from orders a , users b , dept c , cate d where a.usersid = b.usersid and a.deptid = c.deptid and a.cateid =
+    d.cateid order by ordersid desc
+  </select>
+
+  <!-- 按主键查询 DAO通过id调用此配置 -->
+  <select id="getOrdersById" parameterType="String" resultMap="ordersMap">
+    select a.* , b.realname , c.deptname , d.catename from orders a , users b , dept c , cate d where a.usersid = b.usersid and a.deptid = c.deptid and a.cateid =
+    d.cateid and ordersid=#{ordersid} order by ordersid desc
+  </select>
+  <!-- 按条件精确查询 DAO通过id调用此配置 -->
+  <select id="getOrdersByCond" parameterType="orders" resultMap="ordersMap">
+    select a.* , b.realname , c.deptname , d.catename from orders a , users b , dept c , cate d where a.usersid = b.usersid and a.deptid = c.deptid and a.cateid
+    = d.cateid
+    <if test="ordercode != null and '' != ordercode">
+      and a.ordercode = #{ordercode}
+    </if>
+    <if test="usersid != null and '' != usersid">
+      and a.usersid = #{usersid}
+    </if>
+    <if test="deptid != null and '' != deptid">
+      and a.deptid = #{deptid}
+    </if>
+    <if test="cateid != null and '' != cateid">
+      and a.cateid = #{cateid}
+    </if>
+    <if test="money != null and '' != money">
+      and a.money = #{money}
+    </if>
+    <if test="orderdate != null and '' != orderdate">
+      and a.orderdate = #{orderdate}
+    </if>
+    <if test="symptoms != null and '' != symptoms">
+      and a.symptoms = #{symptoms}
+    </if>
+    <if test="status != null and '' != status">
+      and a.status = #{status}
+    </if>
+  </select>
+  <!-- 按条件模糊查询 DAO通过id调用此配置 -->
+  <select id="getOrdersByLike" parameterType="orders" resultMap="ordersMap">
+    select a.* , b.realname , c.deptname , d.catename from orders a , users b , dept c , cate d where a.usersid = b.usersid and a.deptid = c.deptid and a.cateid
+    = d.cateid
+    <if test="ordercode != null and '' != ordercode">
+      and a.ordercode like CONCAT('%', CONCAT(#{ordercode}, '%'))
+    </if>
+    <if test="usersid != null and '' != usersid">
+      and b.realname like CONCAT('%', CONCAT(#{usersid}, '%'))
+    </if>
+    <if test="deptid != null and '' != deptid">
+      and c.deptname like CONCAT('%', CONCAT(#{deptid}, '%'))
+    </if>
+    <if test="cateid != null and '' != cateid">
+      and d.catename like CONCAT('%', CONCAT(#{cateid}, '%'))
+    </if>
+    <if test="money != null and '' != money">
+      and a.money like CONCAT('%', CONCAT(#{money}, '%'))
+    </if>
+    <if test="orderdate != null and '' != orderdate">
+      and a.orderdate like CONCAT('%', CONCAT(#{orderdate}, '%'))
+    </if>
+    <if test="symptoms != null and '' != symptoms">
+      and a.symptoms like CONCAT('%', CONCAT(#{symptoms}, '%'))
+    </if>
+    <if test="status != null and '' != status">
+      and a.status like CONCAT('%', CONCAT(#{status}, '%'))
+    </if>
+  </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.SafesDAO">
+  <resultMap type="safes" id="safesMap">
+    <id property="safesid" column="safesid" />
+    <result property="safesname" column="safesname" />
+    <result property="addtime" column="addtime" />
+  </resultMap>
+  <!-- 插入语句 DAO通过id调用此配置 -->
+  <insert id="insertSafes" parameterType="safes">
+    insert into safes(safesid , safesname , addtime ) values(#{safesid} , #{safesname} , #{addtime} )
+  </insert>
+  <!-- 更新语句 DAO通过id调用此配置 -->
+  <update id="updateSafes" parameterType="safes">
+    update safes set safesname=#{safesname} , addtime=#{addtime} where safesid=#{safesid}
+  </update>
+  <!-- 按主键删除 DAO通过id调用此配置 -->
+  <delete id="deleteSafes" parameterType="String">
+    delete from safes where safesid = #{safesid}
+  </delete>
+  <!-- 查询全部信息 DAO通过id调用此配置 -->
+  <select id="getAllSafes" resultMap="safesMap">
+    select a.* from safes a where 1=1 order by safesid desc
+  </select>
+
+  <!-- 按主键查询 DAO通过id调用此配置 -->
+  <select id="getSafesById" parameterType="String" resultMap="safesMap">
+    select a.* from safes a where safesid=#{safesid} order by safesid desc
+  </select>
+  <!-- 按条件精确查询 DAO通过id调用此配置 -->
+  <select id="getSafesByCond" parameterType="safes" resultMap="safesMap">
+    select a.* from safes a where 1=1
+    <if test="safesname != null and '' != safesname">
+      and a.safesname = #{safesname}
+    </if>
+    <if test="addtime != null and '' != addtime">
+      and a.addtime = #{addtime}
+    </if>
+  </select>
+  <!-- 按条件模糊查询 DAO通过id调用此配置 -->
+  <select id="getSafesByLike" parameterType="safes" resultMap="safesMap">
+    select a.* from safes a where 1=1
+    <if test="safesname != null and '' != safesname">
+      and a.safesname like CONCAT('%', CONCAT(#{safesname}, '%'))
+    </if>
+    <if test="addtime != null and '' != addtime">
+      and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+    </if>
+  </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

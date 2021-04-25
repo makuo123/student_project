@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.ApplysDAO">
+  <resultMap type="applys" id="applysMap">
+    <id property="applysid" column="applysid" />
+    <result property="worksid" column="worksid" />
+    <result property="doctorid" column="doctorid" />
+    <result property="reason" column="reason" />
+    <result property="workdate" column="workdate" />
+    <result property="orderdate" column="orderdate" />
+    <result property="status" column="status" />
+    <result property="memo" column="memo" />
+    <result property="wno" column="wno" />
+    <result property="doctorname" column="doctorname" />
+  </resultMap>
+  <!-- 插入语句 DAO通过id调用此配置 -->
+  <insert id="insertApplys" parameterType="applys">
+    insert into applys(applysid , worksid , doctorid , reason , workdate , orderdate , status , memo ) values(#{applysid} , #{worksid} , #{doctorid} , #{reason} ,
+    #{workdate} , #{orderdate} , #{status} , #{memo} )
+  </insert>
+  <!-- 更新语句 DAO通过id调用此配置 -->
+  <update id="updateApplys" parameterType="applys">
+    update applys set worksid=#{worksid} , doctorid=#{doctorid} , reason=#{reason} , workdate=#{workdate} , orderdate=#{orderdate} , status=#{status} , memo=#{memo}
+    where applysid=#{applysid}
+  </update>
+  <!-- 按主键删除 DAO通过id调用此配置 -->
+  <delete id="deleteApplys" parameterType="String">
+    delete from applys where applysid = #{applysid}
+  </delete>
+  <!-- 查询全部信息 DAO通过id调用此配置 -->
+  <select id="getAllApplys" resultMap="applysMap">
+    select a.* , b.wno , c.doctorname from applys a , works b , doctor c where a.worksid = b.worksid and a.doctorid = c.doctorid order by applysid desc
+  </select>
+
+  <!-- 按主键查询 DAO通过id调用此配置 -->
+  <select id="getApplysById" parameterType="String" resultMap="applysMap">
+    select a.* , b.wno , c.doctorname from applys a , works b , doctor c where a.worksid = b.worksid and a.doctorid = c.doctorid and applysid=#{applysid} order by
+    applysid desc
+  </select>
+  <!-- 按条件精确查询 DAO通过id调用此配置 -->
+  <select id="getApplysByCond" parameterType="applys" resultMap="applysMap">
+    select a.* , b.wno , c.doctorname from applys a , works b , doctor c where a.worksid = b.worksid and a.doctorid = c.doctorid
+    <if test="worksid != null and '' != worksid">
+      and a.worksid = #{worksid}
+    </if>
+    <if test="doctorid != null and '' != doctorid">
+      and a.doctorid = #{doctorid}
+    </if>
+    <if test="reason != null and '' != reason">
+      and a.reason = #{reason}
+    </if>
+    <if test="workdate != null and '' != workdate">
+      and a.workdate = #{workdate}
+    </if>
+    <if test="orderdate != null and '' != orderdate">
+      and a.orderdate = #{orderdate}
+    </if>
+    <if test="status != null and '' != status">
+      and a.status = #{status}
+    </if>
+    <if test="memo != null and '' != memo">
+      and a.memo = #{memo}
+    </if>
+  </select>
+  <!-- 按条件模糊查询 DAO通过id调用此配置 -->
+  <select id="getApplysByLike" parameterType="applys" resultMap="applysMap">
+    select a.* , b.wno , c.doctorname from applys a , works b , doctor c where a.worksid = b.worksid and a.doctorid = c.doctorid
+    <if test="worksid != null and '' != worksid">
+      and b.wno like CONCAT('%', CONCAT(#{worksid}, '%'))
+    </if>
+    <if test="doctorid != null and '' != doctorid">
+      and c.doctorname like CONCAT('%', CONCAT(#{doctorid}, '%'))
+    </if>
+    <if test="reason != null and '' != reason">
+      and a.reason like CONCAT('%', CONCAT(#{reason}, '%'))
+    </if>
+    <if test="workdate != null and '' != workdate">
+      and a.workdate like CONCAT('%', CONCAT(#{workdate}, '%'))
+    </if>
+    <if test="orderdate != null and '' != orderdate">
+      and a.orderdate like CONCAT('%', CONCAT(#{orderdate}, '%'))
+    </if>
+    <if test="status != null and '' != status">
+      and a.status like CONCAT('%', CONCAT(#{status}, '%'))
+    </if>
+    <if test="memo != null and '' != memo">
+      and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+    </if>
+  </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
